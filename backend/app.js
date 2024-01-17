@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 import connection from "./config/connection.js";
-const artcilesRoute = require("./routes/artcile.route");
+//const artcilesRoute = require("./routes/artcile.route");
 const userRoutes = require("./routes/user.route");
 const path = require("path"); // getting access to the server's path
 const helmet = require("helmet"); // for security
@@ -27,7 +27,7 @@ app.use(helmet());
 app.use(bodyParser.json()); // bodyParser is used by all endpoints
 
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use("/api/artciles", artcilesRoute);
+//app.use("/api/artciles", artcilesRoute);
 app.use("/api/auth", userRoutes);
 
 module.exports = app;

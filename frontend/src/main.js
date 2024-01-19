@@ -4,7 +4,11 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ValidationProvider } from "vee-validate";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/free-solid-svg-icons";
+import {
+  FontAwesomeIcon,
+  faArchive,
+  faContactCard,
+} from "@fortawesome/free-solid-svg-icons";
 import store from "./store";
 import router from "./router";
 import {
@@ -17,7 +21,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 const app = createApp(App);
 
-library.add(faUser, faUserAlt, faUserPlus, faSignInAlt, faSignOutAlt, faHome);
+library.add(
+  faUser,
+  faUserAlt,
+  faUserPlus,
+  faSignInAlt,
+  faSignOutAlt,
+  faHome,
+  faArchive,
+  faContactCard
+);
 //dom.watch();
 // Register the Font Awesome component globally
 app.component("font-awesome-icon", FontAwesomeIcon);

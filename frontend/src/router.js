@@ -1,16 +1,19 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "./components/HomePage";
+
 import ContactPage from "./components/ContactPage";
 import UserBoard from "./components/UserBoard";
+
+import WelcomePage from "./components/WelcomePage";
 import AdminBoard from "./components/AdminBoard";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
+import MentionsLegales from "./components/MentionsLegales";
+import ArticlesList from "./components/ArticlesList";
 
 const routes = [
   {
-    path: "/",
-    name: "accueil",
-    component: HomePage,
+    path: "/accueil",
+    component: WelcomePage,
   },
   {
     path: "/login",
@@ -31,6 +34,14 @@ const routes = [
   {
     path: "/signup",
     component: SignUp,
+  },
+  {
+    path: "/mentions-legales",
+    component: MentionsLegales,
+  },
+  {
+    path: "/les-publications",
+    component: ArticlesList,
   },
 ];
 

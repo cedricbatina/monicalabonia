@@ -1,7 +1,6 @@
-import connection from "../config/connection.js";
-import User from "../models/user.model.js";
+const User = require("../models/user.model.js");
 
-export const checkDuplicateEmail = (res, req) => {
+exports.checkDuplicateEmail = (res, req) => {
   if (User.getOneUser) {
     email = req.body.email;
     res.status(500).json({ message: "Email déjà utilisé" });
@@ -11,7 +10,7 @@ export const checkDuplicateEmail = (res, req) => {
   return;
 };
 
-export const checkRoleExisted = (res, req, next) => {
+exports.checkRoleExisted = (res, req, next) => {
   if (req.body.roles) {
     for (let i = 0; i < req.boy.roles.length; i++) {
       if (!res.includes(req.body.roles[i])) {

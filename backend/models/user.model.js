@@ -1,16 +1,11 @@
-import { connection } from "../config/connection";
-import { authentication } from "../config/authentication";
-import { role } from "../models/role.model";
-import jsonwebtoken, { TokenExpiredError } from "jsonwebtoken";
-import bcrypt from "bcryptjs/dist/bcrypt";
-
-const jwt = jsonwebtoken;
-
-import connection from "../config/connection.js";
+const connection = require("../config/connection.js");
+const authentication = require("../config/authentication.js").default;
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 //create user
 
-export const createUser = (req, res) => {
+exports.createUser = (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let password = bcrypt.hashSync(req.body.password, 9);
@@ -29,7 +24,7 @@ export const createUser = (req, res) => {
 };
 
 // get all users
-export const getAllUsers = (result) => {
+exports.getAllUsers = (result) => {
   connection.query("SELECT * FROM users", (err, results) => {
     if (err) {
       result.status(403).json({ message: "Une erreur est survenue" });
@@ -40,7 +35,7 @@ export const getAllUsers = (result) => {
   });
 };
 
-export const getOneUser = (id, result) => {
+exports.getOneUser = (id, result) => {
   connection.query("SELECT * FROM users WHERE email = ?", (err, results) => {
     if (err) {
       result.status(403).json({ message: "Une erreur est survenue" });
@@ -51,7 +46,7 @@ export const getOneUser = (id, result) => {
   });
 };
 
-export const signup = (req, res) => {
+exports.signup = (req, res) => {
   let name = req.body.name;
   let email = req.body.email;
   let password = bcrypt.hashSync(req.body.password, 9);
@@ -103,7 +98,7 @@ export const signup = (req, res) => {
   });
 };
 
-export const signin = (req, res) => {
+exports.signin = (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   connection.query(

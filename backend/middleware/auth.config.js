@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
-import secret from "../config/authentication.js";
+const jwt = require("jsonwebtoken");
+const User = require("../models/user.model.js");
+const secret = require("../config/authentication.js");
 
-export const verifyToken = (req, res) => {
+exports.verifyToken = (req, res) => {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send({ message: "Il n'y a pas de Token" });
@@ -15,7 +15,7 @@ export const verifyToken = (req, res) => {
   });
 };
 
-export const isAdmin = (req, res, next) => {
+exports.isAdmin = (req, res, next) => {
   User.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
@@ -31,7 +31,7 @@ export const isAdmin = (req, res, next) => {
   });
 };
 
-export const isUser = (req, res, next) => {
+exports.isUser = (req, res, next) => {
   User.findByPk(req.userId).then((user) => {
     user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {

@@ -1,9 +1,9 @@
-export const allAccess = (req, res) => {
+exports.allAccess = (req, res) => {
   res.status(200).json({ message: "Contenu publique" });
 };
-export const adminBoard = (res) => {
+exports.adminBoard = (res) => {
   res.status(200).json({ message: "Contenu administrateur" });
 };
-export const userBoard = (res) => {
+exports.userBoard = (res) => {
   res.status(200).json({ message: "Contenu utilisateur" });
 };

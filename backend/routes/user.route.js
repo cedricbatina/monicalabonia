@@ -1,19 +1,31 @@
 const express = require("express");
-
-import { checkDuplicateEmail } from "../middleware/VerifySignUp";
-import { signup } from "../models/user.model";
-import { signin } from "../models/user.model";
-import { isAdmin } from "../middleware/auth.config";
-import { getOneUser } from "../models/user.model";
-import { getAllUsers } from "../models/user.model";
-import { createUser } from "../models/user.model";
+const userController = require("../models/user.model.js");
+const verifySignUp = require("../middleware/verifySignUp.js");
+const auth = require("../middleware/auth.config.js");
+const authController = require("../controllers/auth.controller.js");
 
 const userRouter = express.Router();
 
-router.post("/signin", signin);
-router.post("/signup", checkDuplicateEmail, signup);
-router.get("/admin", isAdmin, getAllUsers);
-router.get("/admin", isAdmin, getOneUser);
-router.post("/admin", isAdmin, createUser);
+userRouter.post("/signin/", userController.signin);
+userRouter.post(
+  "/signup/",
+  verifySignUp.checkDuplicateEmail,
+  userController.signup
+);
+userRouter.post("/admin/", auth.isAdmin, userController.createUser);
+
+userRouter.get("/admin", auth.isAdmin, userController.getAllUsers, (res) => {
+  res.status(200).json({ message: "Bienvenue" });
+  authController.adminBoard;
+});
+userRouter.get(
+  "/admin",
+  auth.isAdmin,
+  userController.getOneUser,
+  (req, res) => {
+    res.status(201).json({ message: "Bienvenue" });
+    authController.adminBoard;
+  }
+);
 
 module.exports = userRouter;

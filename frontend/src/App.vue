@@ -6,13 +6,9 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HomePage.vue";
-
 export default {
   name: "App",
-  components: {
-    HelloWorld,
-  },
+  data() {},
 };
 </script>
 

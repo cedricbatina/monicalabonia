@@ -1,19 +1,15 @@
 <template>
   <div>
     <h1 class="text-center">Admin Board</h1>
-    <img alt="Vue logo" src="./assets/logo.png" />
+    <img alt="Vue logo" src="../assets/logo_monica.png" />
     <p><HelloWorld msg="Welcome to Your Vuejs App" /></p>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HomePage.vue";
-
 export default {
-  name: "App",
-  components: {
-    HelloWorld,
-  },
+  name: "HomePage",
+  data() {},
 };
 </script>
 

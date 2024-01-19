@@ -3,14 +3,20 @@ import API_URL from "@/http.api";
 
 class AuthService {
   async login(user) {
-    const Response = await axios.post(API_URL + "signin", {
-      email: user.email,
-      password: user.password,
-    });
-    if (Response.data.accessToken) {
-      localStorage.setItem("user", JSON.stringify(Response.data));
+    try {
+      const response = await axios.post(API_URL + "signin", {
+        email: user.email,
+        password: user.password,
+      });
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      return response.data;
+    } catch (error) {
+      // Handle login error
+      console.error("Login failed:", error);
+      throw error; // Re-throw the error to be caught by the calling function
     }
-    return Response.data;
   }
   logout() {
     localStorage.removeItem("user");

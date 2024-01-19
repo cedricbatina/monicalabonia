@@ -5,21 +5,21 @@ const initialState = user
   ? { status: { loggedIn: true }, user }
   : { status: { loggedIn: false }, user: null };
 
-export const auth = {
+const authModule = {
   namespaced: true,
   state: initialState,
   actions: {
     login({ commit }, user) {
-      return (
-        authService.login(user).then((user) => {
+      return authService
+        .login(user)
+        .then((user) => {
           commit("loginSuccess", user);
           return Promise.resolve(user);
-        }),
-        (error) => {
+        })
+        .catch((error) => {
           commit("loginFailure");
           return Promise.reject(error);
-        }
-      );
+        });
     },
   },
   mutations: {
@@ -28,10 +28,10 @@ export const auth = {
       state.user = user;
     },
     loginFailure(state) {
-      state.status.loggedIn = true;
+      state.status.loggedIn = false;
       state.user = null;
     },
-    logOut(state) {
+    logout(state) {
       state.status.loggedIn = false;
       state.user = null;
     },
@@ -41,3 +41,4 @@ export const auth = {
     },
   },
 };
+export default authModule;

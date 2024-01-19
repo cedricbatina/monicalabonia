@@ -42,8 +42,11 @@
                   v-show="loading"
                   class="spinner-border spinner-border-sm"
                 ></span>
+                <span>ENVOYER</span>
               </button>
-              <span>ENVOYER</span>
+            </div>
+            <div v-if="message" class="alert alert-danger" role="alert">
+              <p>{{ message }}</p>
             </div>
           </div>
         </div>
@@ -53,7 +56,51 @@
 </template>
 
 <script>
-export default {};
+import User from "../models/user.model";
+
+export default {
+  name: "LogIn",
+  data() {
+    return {
+      user: new User("", ""),
+      loading: false,
+      message: "",
+    };
+  },
+  computed: {
+    loggedIn() {
+      return this.$store.state.status.loggedIn;
+    },
+  },
+  created() {
+    if (this.loggedIn) {
+      this.$router.push("/profile");
+    }
+  },
+  methods: {
+    handleLogin() {
+      this.loading = true;
+      this.$validator.validateAll().then((isValid) => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }
+        if (this.user.name && this.user.password) {
+          this.$store.dispatch("/login", this.user).then(
+            () => {
+              this.$router.push("/profile");
+            },
+            (error) => {
+              this.loading = false;
+              this.message =
+                error.Response.data || error.message || error.toStrings();
+            }
+          );
+        }
+      });
+    },
+  },
+};
 </script>
 
 <style>

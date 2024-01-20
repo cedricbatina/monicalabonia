@@ -16,6 +16,9 @@ import {
   faUser,
   faUserAlt,
   faUserPlus,
+  faScaleBalanced,
+  faLock,
+  faLockOpen,
 } from "@fortawesome/free-solid-svg-icons";
 const app = createApp(App);
 
@@ -27,14 +30,17 @@ library.add(
   faSignOutAlt,
   faHome,
   faArchive,
-  faContactCard
+  faContactCard,
+  faLock,
+  faLockOpen,
+  faScaleBalanced
 );
 //dom.watch();
 // Register the Font Awesome component globally
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 // Register the ValidationProvider globally
-app.component("ValidationProvider", Field);
+app.component("ValidationField", Field);
 
 app.use(store);
 app.use(router);

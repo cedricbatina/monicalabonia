@@ -32,12 +32,22 @@
             </li>
             <li class="nav-item">
               <router-link to="/les-publications" class="nav-link">
-                <font-awesome-icon icon="book" />
+                <font-awesome-icon icon="archive" />
                 Publications</router-link
               >
             </li>
             <li class="nav-item">
-              <router-link to="/contact" class="nav-link">Contact</router-link>
+              <router-link to="/contact" class="nav-link">
+                <font-awesome-icon icon="contact-card"></font-awesome-icon>
+                Contact</router-link
+              >
+            </li>
+
+            <li class="nav-item">
+              <router-link to="/mentions-legales" class="nav-link">
+                <font-awesome-icon icon="scale-balanced"></font-awesome-icon>
+                Mentions</router-link
+              >
             </li>
 
             <li class="nav-item dropdown">
@@ -49,11 +59,15 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Mentions Légales
+                <font-awesome-icon icon="lock" />
+                Admin
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="nav-item">
-                  <router-view class="nav-link">Mentions Legales</router-view>
+                  <router-link to="login" class="nav-link">
+                    <font-awesome-icon icon="user" />
+                    <font-awesome-icon icon="sign-in-alt" /> Log In</router-link
+                  >
                 </li>
                 <li v-if="currentUser" class="nav-item"></li>
                 <li v-if="showAdminBoad">
@@ -63,7 +77,7 @@
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="#">Divers</a>
                 </li>
               </ul>
             </li>

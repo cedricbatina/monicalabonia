@@ -28,12 +28,13 @@
                 class="nav-link nav-link active"
                 aria-current="page"
               >
-                <font-awesome-icon icone="home" /> Accueil
+                <font-awesome-icon icon="home" /> Accueil
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/les-publications" class="nav-link"
-                >Publications</router-link
+              <router-link to="/les-publications" class="nav-link">
+                <font-awesome-icon icon="book" />
+                Les Publications</router-link
               >
             </li>
             <li class="nav-item">

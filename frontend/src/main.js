@@ -2,19 +2,17 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { ValidationProvider } from "vee-validate";
+import { Field } from "vee-validate";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  FontAwesomeIcon,
-  faArchive,
-  faContactCard,
-} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import store from "./store";
 import router from "./router";
 import {
   faHome,
   faSignInAlt,
   faSignOutAlt,
+  faArchive,
+  faContactCard,
   faUser,
   faUserAlt,
   faUserPlus,
@@ -36,7 +34,7 @@ library.add(
 app.component("font-awesome-icon", FontAwesomeIcon);
 
 // Register the ValidationProvider globally
-app.component("ValidationProvider", ValidationProvider);
+app.component("ValidationProvider", Field);
 
 app.use(store);
 app.use(router);

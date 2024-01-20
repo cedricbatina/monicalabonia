@@ -2,7 +2,7 @@
   <div id="app" class="container-fluid">
     <nav class="navbar col-sm-12 navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <a class="navbar-brand col-md-4 mr-3" href="#"
+        <a class="navbar-brand col-md-6 mr-4" href="#"
           ><img src="./assets/logo_monica.png" alt=""
         /></a>
         <button
@@ -16,13 +16,12 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div><span class="m3 col-md-2"></span></div>
         <div
           class="collapse col-md-6 ml-3 navbar-collapse"
           id="navbarSupportedContent"
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-link">
+            <li class="nav-item">
               <router-link
                 to="/accueil"
                 class="nav-link nav-link active"
@@ -34,7 +33,7 @@
             <li class="nav-item">
               <router-link to="/les-publications" class="nav-link">
                 <font-awesome-icon icon="book" />
-                Les Publications</router-link
+                Publications</router-link
               >
             </li>
             <li class="nav-item">
@@ -50,7 +49,7 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Politiques et confidentialités
+                Mentions Légales
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="nav-item">

@@ -12,7 +12,8 @@ import ArticlesList from "./components/ArticlesList";
 
 const routes = [
   {
-    path: "/accueil",
+    path: "/",
+    name: "accueil",
     component: WelcomePage,
   },
   {

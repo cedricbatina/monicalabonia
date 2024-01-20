@@ -24,7 +24,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-link">
               <router-link
-                to="HomePage"
+                to="/accueil"
                 class="nav-link nav-link active"
                 aria-current="page"
               >
@@ -32,7 +32,7 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/publications" class="nav-link"
+              <router-link to="/les-publications" class="nav-link"
                 >Publications</router-link
               >
             </li>
@@ -53,11 +53,11 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li class="nav-item">
-                  <router-link class="nav-link">Mentions Legales</router-link>
+                  <router-view class="nav-link">Mentions Legales</router-view>
                 </li>
                 <li v-if="currentUser" class="nav-item"></li>
                 <li v-if="showAdminBoad">
-                  <router-link to="/admin" class="nav-item dropdown-item"
+                  <router-link to="admin" class="nav-item dropdown-item"
                     >Administration</router-link
                   >
                 </li>

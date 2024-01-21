@@ -13,8 +13,8 @@ userRouter.post(
   userController.signup
 );
 userRouter.post("/admin", auth.isAdmin, userController.createUser);
+userRouter.get("/admin/:id", auth.isAdmin, userController.getOneUser);
 
 userRouter.get("/admin", auth.isAdmin, userController.getAllUsers);
-userRouter.get("/admin/:id", auth.isAdmin, userController.getOneUser);
 
 module.exports = userRouter;

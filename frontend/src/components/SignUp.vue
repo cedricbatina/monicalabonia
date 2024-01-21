@@ -1,61 +1,74 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <font-awesome-icon :icon="['fas', 'user']" />
-      <img src="../assets//logo_monica.png" alt="log de Monica Labonia" />
-      <form name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
-          <!--if registering fails-->
-          <div class="form-group">
-            <label for="name">Nom:</label>
-            <input
-              v-model="user.name"
-              type="text"
-              name="name"
-              class="form-control"
-              v-validate="'required|min:3|max:20'"
-            />
-            <div
-              v-if="submitted && errors.has('name')"
-              class="alert alert-danger"
-            ></div>
-          </div>
-        </div>
-        <!---->
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input
-            v-model="user.email"
-            type="email"
-            class="form-group"
-            v-validate="'required|email|max:50'"
-            name="email"
-          />
-          <div
-            v-if="submitted && errors.has('email')"
-            class="alert alert-danger"
-          >
-            {{ errors.first("password") }}
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block">ENVOYER</button>
-          </div>
-        </div>
-      </form>
-    </div>
+  <div class="d-flex align-center justify-center" style="height: 100vh">
+    <v-sheet width="400" class="mx-auto">
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field
+          v-model="user.name"
+          :rules="nameRules"
+          label="Nom"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="user.email"
+          :rules="emailRules"
+          label="Email"
+          required
+        ></v-text-field>
+
+        <v-text-field
+          v-model="user.password"
+          :rules="passwordRules"
+          label="Mot de Passe"
+          required
+        ></v-text-field>
+
+        <v-btn :disabled="!valid" color="success" @click="handleLogin">
+          Login
+        </v-btn>
+      </v-form>
+      <div class="mt-2">
+        <p class="text-body-2">
+          Already have an account?
+          <router-link to="/login">Sign in</router-link>
+        </p>
+      </div>
+    </v-sheet>
   </div>
 </template>
 
 <script>
-import User from "../models/user.model";
+import AuthService from "@/services/auth.service";
+import { nameRules, passwordRules, emailRules } from "@/validationRules";
 export default {
   name: "SignUp",
   data() {
     return {
-      user: new User("", ""),
+      user: { name: "", email: "", password: "" },
+      name: nameRules,
+      email: emailRules,
+      password: passwordRules,
       submitted: false,
       successful: false,
       message: "",
+      passwordRules: [
+        (value) => !!value || "Entrez un mot de passe",
+        (value) =>
+          value.length >= 6 ||
+          "Le mot de passe doit contenir au moins 6 caractères",
+        (value) =>
+          /[A-Z]/.test(value) ||
+          "Le mot de passe doit contenir au moins une lettre majuscule",
+        (value) =>
+          /[!@#$%^&*(),.?":{}|<>0-9]/.test(value) ||
+          "Le mot de passe doit contenir au moins un caractère spécial",
+        (value) =>
+          /\d/.test(value) ||
+          "Le mot de passe doit contenir au moins un chiffre",
+      ],
+      emailRules: [
+        (value) => !!value || " Entrez un E-mail",
+        (value) => /^\S+@\S+\.\S+$/.test(value) || "Entrez un E-mail valide",
+      ],
     };
   },
   computed: {
@@ -65,29 +78,35 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push("/profile");
+      this.$router.push("/user");
     }
   },
   methods: {
-    handleRegister() {
-      (this.message = ""), (this.submitted = true);
-      this.$validator.validate().then((isValid) => {
-        if (isValid) {
-          this.$store.dispatch("/signup", this.user).then(
-            (data) => {
-              this.message = data.message;
-              this.successful = true;
-            },
-            (error) => {
-              this.message =
-                (error.Response && Response.data) ||
-                error.message ||
-                error.toString();
-              this.successful = false;
-            }
-          );
-        }
-      });
+    async handleRegister() {
+      this.message = "";
+      this.submitted = true;
+
+      try {
+        const response = await AuthService.register({
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        });
+
+        // Traitement réussi
+        this.successful = true;
+        this.message = response.data.message;
+
+        // Rediriger l'utilisateur vers la page de connexion, par exemple
+        this.$router.push("/signin");
+      } catch (error) {
+        // Gestion des erreurs
+        this.successful = false;
+        this.message =
+          (error.response && error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
     },
   },
 };

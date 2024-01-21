@@ -1,14 +1,24 @@
-const User = require("../models/user.model.js");
+const connection = require("../config/connection.js");
 
 exports.checkDuplicateEmail = (req, res, next) => {
   const email = req.body.email;
-  User.findOne({ where: { email: email } }).then((user) => {
-    if (user) {
-      res.status(500).json({ message: "Email déjà utilisé" });
-    } else {
+
+  connection.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        return res.status(500).json({ message: "Une erreur est survenue" });
+      }
+
+      if (results.length > 0) {
+        return res.status(500).json({ message: "Email déjà utilisé" });
+      }
+
       next();
     }
-  });
+  );
 };
 
 exports.checkRoleExisted = (req, res, next) => {

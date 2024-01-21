@@ -5,134 +5,60 @@
 
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
-          v-model="name"
-          :counter="10"
-          :rules="nameRules"
-          label="Name"
+          v-model="user.email"
+          :rules="emailRules"
+          label="Email"
           required
         ></v-text-field>
 
         <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          label="E-mail"
+          v-model="user.password"
+          :rules="passwordRules"
+          label="Mot de Passe"
           required
         ></v-text-field>
 
-        <!-- 
-            <v-select
-          v-model="select"
-          :items="items"
-          :rules="[(v) => !!v || 'Item is required']"
-          label="Item"
-          required
-        ></v-select>
-        <v-checkbox
-          v-model="checkbox"
-          :rules="[(v) => !!v || 'You must agree to continue!']"
-          label="Do you agree?"
-          required
-        ></v-checkbox>-->
-
-        <v-btn :disabled="!valid" color="success" @click="validate">
-          Validate
-        </v-btn>
-
-        <v-btn color="error" @click="reset"> Reset Form </v-btn>
-
-        <v-btn color="warning" @click="resetValidation">
-          Reset Validation
+        <v-btn :disabled="!valid" color="success" @click="handleLogin">
+          Login
         </v-btn>
       </v-form>
-      <form @submit.prevent="submit">
-        <v-text-field
-          v-model="name.value.value"
-          :counter="10"
-          :error-messages="name.errorMessage.value"
-          label="Name"
-        ></v-text-field>
-
-        <v-text-field
-          v-model="phone.value.value"
-          :counter="7"
-          :error-messages="phone.errorMessage.value"
-          label="Phone Number"
-        ></v-text-field>
-
-        <v-text-field
-          v-model="email.value.value"
-          :error-messages="email.errorMessage.value"
-          label="E-mail"
-        ></v-text-field>
-
-        <v-select
-          v-model="select.value.value"
-          :items="items"
-          :error-messages="select.errorMessage.value"
-          label="Select"
-        ></v-select>
-
-        <v-checkbox
-          v-model="checkbox.value.value"
-          :error-messages="checkbox.errorMessage.value"
-          value="1"
-          label="Option"
-          type="checkbox"
-        ></v-checkbox>
-
-        <v-btn class="me-4" type="submit"> submit </v-btn>
-
-        <v-btn @click="handleReset"> clear </v-btn>
-      </form>
-      <Form
-        :validation-schema="schema"
-        action=""
-        name="form"
-        @submit="handleLogin"
-      >
-        <div class="form-group">
-          <Field
-            name="email"
-            type="email"
-            v-model="user.name"
-            :rules="validateEmail"
-          />
-          <ErrorMessage name="email" />
-        </div>
-
-        <Field name="password" type="password" v-model="user.password" />
-        <ErrorMessage name="password" />
-
-        <div class="form-group">
-          <button class="btn btn-block btn-primary" :disabled="loading">
-            <span
-              v-show="loading"
-              class="spinner-border spinner-border-sm"
-            ></span>
-            <span>ENVOYER</span>
-          </button>
-        </div>
-      </Form>
     </div>
   </div>
 </template>
 
 <script>
-import { Form, Field, ErrorMessage } from "vee-validate";
 import User from "../models/user.model";
 import { mapState } from "vuex";
-
+import { emailRules, passwordRules } from "../validationRules.js";
 export default {
-  name: "LogIn",
+  name: "ContactPage",
   data() {
     return {
       user: new User("", ""),
-      loading: false,
+      valid: false,
+      passwordRules: [
+        (value) => !!value || "Entrez un mot de passe",
+        (value) =>
+          value.length >= 6 ||
+          "Le mot de passe doit contenir au moins 6 caractères",
+        (value) =>
+          /[A-Z]/.test(value) ||
+          "Le mot de passe doit contenir au moins une lettre majuscule",
+        (value) =>
+          /[!@#$%^&*(),.?":{}|<>0-9]/.test(value) ||
+          "Le mot de passe doit contenir au moins un caractère spécial",
+        (value) =>
+          /\d/.test(value) ||
+          "Le mot de passe doit contenir au moins un chiffre",
+      ],
+      emailRules: [
+        (value) => !!value || " Entrez un E-mail",
+        (value) => /^\S+@\S+\.\S+$/.test(value) || "Entrez un E-mail valide",
+      ],
+      password: passwordRules,
+      email: emailRules,
     };
   },
-  rules: {},
-  validations: {},
-  nombre: {},
   computed: {
     ...mapState("authModule", ["status"]),
     loggedIn() {
@@ -140,50 +66,30 @@ export default {
     },
   },
   created() {
-    console.log(this.status.loggedIn);
     if (this.status.loggedIn) {
-      this.$router.push("auth/user");
+      console.log(this.loggedIn);
+      this.$router.push("/user");
     }
   },
-
   methods: {
-    validateEmail(value) {
-      // if the field is empty
-      if (!value) {
-        return "This field is required";
-      }
-      // if the field is not a valid email
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (!regex.test(value)) {
-        return "This field must be a valid email";
-      }
-      // All is good
-      return true;
-    },
-    handleLogin() {
-      this.loading = true;
+    async handleLogin() {
+      // Validation using Vuetify rules
+      const valid = await this.$refs.form.validate();
+      console.log("After validate:", valid);
 
-      // Utilisez $validator pour accéder aux erreurs de validation
-      this.$validator.validate().then((isValid) => {
-        if (!isValid) {
-          this.loading = false;
-        } else {
-          if (this.user.name && this.user.password) {
-            this.$store.dispatch("auth/login", this.user).then(
-              () => {
-                this.$router.push("/user");
-              },
-              (error) => {
-                this.loading = false;
-                this.message = error.message || error.toString();
-              }
-            );
-          }
+      if (valid) {
+        // Perform login action
+        try {
+          await this.$store.dispatch("authModule/login", this.user);
+          console.log("Redirecting to /user");
+          this.$router.push("/user");
+        } catch (error) {
+          // Handle login error
+          console.error("Login failed:", error);
         }
-      });
+      }
     },
   },
-  components: { Form, Field, ErrorMessage },
 };
 </script>
 

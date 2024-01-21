@@ -77,9 +77,9 @@
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li class="nav-item">
-                  <router-link to="/divers" class="nav-link">
-                    <font-awesome-icon icon="archive" />
-                    Divers</router-link
+                  <router-link to="/signup" class="nav-link">
+                    <font-awesome-icon icon="user-plus" />
+                    Sign up</router-link
                   >
                 </li>
               </ul>

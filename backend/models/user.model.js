@@ -30,7 +30,6 @@ exports.createUser = (req, res) => {
 };
 
 // get all users
-const connection = require("../config/connection.js");
 
 // get all users
 exports.getAllUsers = () => {

@@ -70,6 +70,7 @@ router.beforeEach((to, from, next) => {
     "/contact",
     "/mentions-legales",
     "/divers",
+    "/signup",
   ];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem("user");

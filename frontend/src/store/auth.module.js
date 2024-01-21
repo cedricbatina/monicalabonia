@@ -1,6 +1,7 @@
-import authService from "@/servicices/auth.service";
+import authService from "@/services/auth.service";
 
 const user = JSON.parse(localStorage.getItem("user"));
+
 const initialState = user
   ? { status: { loggedIn: true }, user }
   : { status: { loggedIn: false }, user: null };
@@ -9,17 +10,15 @@ const authModule = {
   namespaced: true,
   state: initialState,
   actions: {
-    login({ commit }, user) {
-      return authService
-        .login(user)
-        .then((user) => {
-          commit("loginSuccess", user);
-          return Promise.resolve(user);
-        })
-        .catch((error) => {
-          commit("loginFailure");
-          return Promise.reject(error);
-        });
+    async login({ commit }, user) {
+      try {
+        const user_2 = await authService.login(user);
+        commit("loginSuccess", user_2);
+        return await Promise.resolve(user_2);
+      } catch (error) {
+        commit("loginFailure");
+        return await Promise.reject(error);
+      }
     },
   },
   mutations: {

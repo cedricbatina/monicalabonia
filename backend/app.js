@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
-
 const bodyParser = require("body-parser");
 const connection = require("./config/connection.js");
 //const artcilesRoute = require("./routes/artcile.route");
 const userRouter = require("./routes/user.route.js");
-const path = require("path"); // getting access to the server's path
-const helmet = require("helmet"); // for security
+const path = require("path"); // Obtenir l'accès au chemin du serveur
+const helmet = require("helmet"); // Pour la sécurité
 
-app.use((res, next) => {
+// Middleware pour gérer les CORS (Cross-Origin Resource Sharing)
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -18,13 +18,16 @@ app.use((res, next) => {
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
-  //next();
+  next(); // appel de  next pour passer à la suite du middleware
 });
-app.use(helmet());
-app.use(bodyParser.json()); // bodyParser is used by all endpoints
 
+app.use(helmet());
+app.use(bodyParser.json()); // bodyParser pour les points de terminaison
+
+// Middleware pour servir les fichiers statiques depuis le dossier "images"
 app.use("/images", express.static(path.join(__dirname, "images")));
-//app.use("/api/artciles", artcilesRoute);
+
+// Utilisation des routes définies dans userRouter pour les endpoints "/api/auth"
 app.use("/api/auth", userRouter);
 
 module.exports = app;

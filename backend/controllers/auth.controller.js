@@ -1,4 +1,4 @@
-exports.allAccess = (req, res) => {
+exports.allAccess = (res) => {
   res.status(200).json({ message: "Contenu publique" });
 };
 exports.adminBoard = (res) => {

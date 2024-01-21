@@ -1,17 +1,38 @@
 <template>
-  <div>
-    <h1 class="text-center">Admin Board</h1>
-    <img alt="Vue logo" src="../assets/logo_monica.png" />
-    <p><HelloWorld msg="Welcome to Your Vuejs App" /></p>
-  </div>
+  <v-container>
+    <p>Tous les utilisateurs</p>
+    <p v-for="user in users" :key="user.id">
+      {{ user.name }} - {{ user.email }}
+    </p>
+  </v-container>
 </template>
 
 <script>
+import UserService from "../services/user.service";
+
 export default {
-  name: "HomePage",
-  data() {},
+  data() {
+    return {
+      users: [],
+    };
+  },
+  methods: {
+    fetchUsers() {
+      UserService.getAdminBoard()
+        .then((response) => {
+          this.users = response.data.users;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  mounted() {
+    this.fetchUsers();
+  },
 };
 </script>
+
 
 <style>
 #app {

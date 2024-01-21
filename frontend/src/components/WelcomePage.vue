@@ -1,12 +1,11 @@
 <template>
   <div class="container">
-    <h3 class="card-header mb-4">Bienvenue sur mon site</h3>
-    <img src="../assets/logo_monica.png" alt="" />
+    <h1>Hi welcome on this site</h1>
   </div>
 </template>
 
 <script>
-import UserService from "@/servicices/user.service";
+import UserService from "../services/user.service";
 
 export default {
   name: "WelcomePage",
@@ -18,10 +17,20 @@ export default {
   mounted() {
     UserService.getPulicContent().then(
       (response) => {
-        this.content = response.data;
+        // Check if response and response.data are defined
+        if (response && response.data) {
+          this.content = response.data;
+        } else {
+          // Handle the case where response or response.data is undefined
+          this.content = "No data available";
+        }
       },
       (error) => {
-        this.content = error.response.data || error.message || error.toString();
+        // Handle errors
+        console.log(error);
+        this.content = error.response
+          ? error.response.data || "Error"
+          : "Error";
       }
     );
   },

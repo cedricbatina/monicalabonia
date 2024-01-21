@@ -1,9 +1,13 @@
 <template>
-  <p>Tous les articles</p>
+  <v-container> <h2 class="text-center">Bienvenue sur le site</h2></v-container>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style>

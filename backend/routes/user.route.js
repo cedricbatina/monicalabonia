@@ -6,26 +6,15 @@ const authController = require("../controllers/auth.controller.js");
 
 const userRouter = express.Router();
 
-userRouter.post("/signin/", userController.signin);
+userRouter.post("/signin", userController.signin);
 userRouter.post(
-  "/signup/",
+  "/signup",
   verifySignUp.checkDuplicateEmail,
   userController.signup
 );
-userRouter.post("/admin/", auth.isAdmin, userController.createUser);
+userRouter.post("/admin", auth.isAdmin, userController.createUser);
 
-userRouter.get("/admin", auth.isAdmin, userController.getAllUsers, (res) => {
-  res.status(200).json({ message: "Bienvenue" });
-  authController.adminBoard;
-});
-userRouter.get(
-  "/admin",
-  auth.isAdmin,
-  userController.getOneUser,
-  (req, res) => {
-    res.status(201).json({ message: "Bienvenue" });
-    authController.adminBoard;
-  }
-);
+userRouter.get("/admin", auth.isAdmin, userController.getAllUsers);
+userRouter.get("/admin/:id", auth.isAdmin, userController.getOneUser);
 
 module.exports = userRouter;

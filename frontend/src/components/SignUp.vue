@@ -22,8 +22,8 @@
           required
         ></v-text-field>
 
-        <v-btn :disabled="!valid" color="success" @click="handleLogin">
-          Login
+        <v-btn :disabled="!valid" color="success" @click="handleRegister">
+          Créer un compte
         </v-btn>
       </v-form>
       <div class="mt-2">
@@ -47,6 +47,7 @@ export default {
       name: nameRules,
       email: emailRules,
       password: passwordRules,
+      valid: false,
       submitted: false,
       successful: false,
       message: "",
@@ -69,11 +70,20 @@ export default {
         (value) => !!value || " Entrez un E-mail",
         (value) => /^\S+@\S+\.\S+$/.test(value) || "Entrez un E-mail valide",
       ],
+      nameRules: [
+        (value) => !!value || "Le nom est requis",
+        (value) =>
+          /^[a-zA-Z]{2,}(?:-[a-zA-Z]{2,})?$/.test(value) ||
+          "Format de nom invalide",
+        (value) =>
+          (value.length >= 4 && value.length <= 16) ||
+          "Le nom doit contenir entre 4 et 16 caractères",
+      ],
     };
   },
   computed: {
     loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
+      return this.$store.state.auth && this.$store.state.auth.status.loggedIn;
     },
   },
   mounted() {
@@ -88,19 +98,21 @@ export default {
 
       try {
         const response = await AuthService.register({
-          name: this.name,
-          email: this.email,
-          password: this.password,
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password,
         });
 
         // Traitement réussi
+        this.valid = true;
         this.successful = true;
         this.message = response.data.message;
-
+        console.log("SHOW LOGS:", this.valid, response.data);
         // Rediriger l'utilisateur vers la page de connexion, par exemple
         this.$router.push("/signin");
       } catch (error) {
         // Gestion des erreurs
+        console.log("SHOW ERRORS : ", error);
         this.successful = false;
         this.message =
           (error.response && error.response.data.message) ||

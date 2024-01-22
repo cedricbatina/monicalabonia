@@ -13,7 +13,7 @@ import OtherPage from "./components/OtherPage";
 
 const routes = [
   {
-    path: "/",
+    path: "/accueil",
     name: "accueil",
     component: WelcomePage,
   },
@@ -64,7 +64,7 @@ const router = createRouter({ history: createWebHistory(), routes });
 
 router.beforeEach((to, from, next) => {
   const publicPages = [
-    "/",
+    "/accueil",
     "/login",
     "/les-publications",
     "/contact",
@@ -75,7 +75,7 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem("user");
   if (authRequired && !loggedIn) {
-    next("/");
+    next("/accueil");
   } else {
     next();
   }

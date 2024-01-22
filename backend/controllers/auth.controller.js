@@ -1,9 +1,11 @@
-exports.allAccess = (res) => {
+exports.allAccess = (_req, res) => {
   res.status(200).json({ message: "Contenu publique" });
 };
-exports.adminBoard = (res) => {
+
+exports.adminBoard = (_req, res) => {
   res.status(200).json({ message: "Contenu administrateur" });
 };
-exports.userBoard = (res) => {
+
+exports.userBoard = (_req, res) => {
   res.status(200).json({ message: "Contenu utilisateur" });
 };

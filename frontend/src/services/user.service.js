@@ -5,7 +5,8 @@ class UserService {
   async getPulicContent() {
     try {
       console.log("Before fetching:");
-      const response = await axios.get("all");
+      const response = await axios.get("/api/all");
+      console.log("AFTER FETCHING : ", response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -15,7 +16,7 @@ class UserService {
   }
   async getUserBoard() {
     try {
-      const response = await axios.get("user", { headers: authHeader() });
+      const response = await axios.get("/api/user", { headers: authHeader() });
       return response.data;
     } catch (error) {
       // Handle error
@@ -26,7 +27,7 @@ class UserService {
 
   async getAdminBoard() {
     try {
-      const response = await axios.get("admin", { headers: authHeader() });
+      const response = await axios.get("/api/admin", { headers: authHeader() });
       return response.data;
     } catch (error) {
       console.error("Error while fetching admin board:", error);
@@ -36,7 +37,7 @@ class UserService {
 
   async getAllUsers() {
     try {
-      const response = await axios.get("admin", { headers: authHeader() });
+      const response = await axios.get("/api/admin", { headers: authHeader() });
       return response.data;
     } catch (error) {
       console.error("Erreur pour accéder à tous les utilisateurs");
